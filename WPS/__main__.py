@@ -5,12 +5,18 @@ def _action(args):
     power = WebPowerSwitch(args.get('hostname'), args.get('port'),
                            args.get('username'), args.get('password'))
 
-    if args.get('action') is 'on':
-        power.on(args.get('outlet'))
-    if args.get('action') is 'off':
-        power.off(args.get('outlet'))
-    if args.get('action') is 'cycle':
-        power.cycle(args.get('outlet'), args.get('delay'))
+    action = args.get('action')
+    outlet = power.outlet[args.get('outlet')]
+
+    if action is 'on':
+        outlet.on()
+    elif action is 'off':
+        outlet.off()
+    elif action is 'cycle':
+        outlet.cycle(args.get('delay'))
+    elif action is 'status':
+        print('"{}" is currently {}'.format(outlet.name, 'ON' if outlet.status() else 'OFF'))
+
 
 @click.group()
 @click.option('-h', '--hostname', default='192.168.0.100', help='IP or hostname of the Web Power Switch')
@@ -49,6 +55,14 @@ def cycle(ctx, outlet, delay):
     ctx['action'] = 'cycle'
     ctx['outlet'] = outlet
     ctx['delay'] = delay    
+    _action(ctx)
+
+@cli.command()
+@click.argument('outlet', type=int)
+@click.pass_obj
+def status(ctx, outlet):
+    ctx['action'] = 'status'
+    ctx['outlet'] = outlet
     _action(ctx)
 
 if __name__ == '__main__':
