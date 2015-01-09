@@ -5,6 +5,10 @@ def _action(args):
     power = WebPowerSwitch(args.get('hostname'), args.get('port'),
                            args.get('username'), args.get('password'))
 
+    if args.get('outlet') not in power.outlet:
+        print("Expected outlet is not accessable by that user or does not exist.")
+        exit(1)
+
     action = args.get('action')
     outlet = power.outlet[args.get('outlet')]
 

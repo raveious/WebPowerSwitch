@@ -30,6 +30,12 @@ class WebPowerSwitch(object):
 
         self.outlet = {}
         re_descriptions = re.compile(r'^<tr bgcolor="#[0-9A-F]{6}"><td align=center>(\d)</td>$.^<td>([\w+\s+]*)</td><td>$', re.M | re.S)
+        re_controller_name = re.compile(r'^<title>[\w*\s]* - ([\w+\s+]*)</title>$', re.M | re.S)
+
+        try:
+            self.name = self._get_info(re_controller_name)[0]
+        except IndexError:
+            self.name = 'Unknown'
 
         for e in self._get_info(re_descriptions):
             self.outlet[int(e[0])] = self.Outlet(self, int(e[0]), e[1])
