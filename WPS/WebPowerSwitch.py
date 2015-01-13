@@ -42,17 +42,15 @@ class WebPowerSwitch(object):
 
     def all_on(self):
         """Turns on all ports on the Web Power Switch."""
-        for n, o in power.outlet.items():
-            o.on()
+        self._action('a', 'ON')
 
     def all_off(self):
         """Turns off all ports on the Web Power Switch."""
-        for n, o in power.outlet.items():
-            o.off()
+        self._action('a', 'OFF')
+
     def cycle_all(self):
         """Cycles all ports on the Web Power Switch with the system delay."""
-        for n, o in power.outlet.items():
-            o.cycle()
+        self._action('a', 'CCL')
 
     def _build_url(self, url):
         """ Build the URL and authentication """
