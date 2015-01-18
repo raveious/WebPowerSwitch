@@ -12,13 +12,21 @@ def _action(args):
     action = args.get('action')
     outlet = power.outlet[args.get('outlet')]
 
-    if action is 'on':
+    print('#%s#' % ('=' * (len(power.name) + 2)))
+    print('| %s |' % (power.name))
+    print('#%s#' % ('=' * (len(power.name) + 2)))
+    print()
+
+    if action == 'on':
+        print('Turning "%s" on' % outlet.name)
         outlet.on()
-    elif action is 'off':
+    elif action == 'off':
+        print('Turning "%s" off' % outlet.name)
         outlet.off()
-    elif action is 'cycle':
+    elif action == 'cycle':
+        print('Cycling power on "%s"' % outlet.name)
         outlet.cycle(args.get('delay'))
-    elif action is 'status':
+    elif action == 'status':
         print('"{}" is currently {}'.format(outlet.name, 'ON' if outlet.status() else 'OFF'))
 
 
